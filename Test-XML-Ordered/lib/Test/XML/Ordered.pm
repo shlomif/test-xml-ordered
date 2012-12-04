@@ -13,6 +13,8 @@ use vars '@EXPORT_OK';
 
 @EXPORT_OK = (qw(is_xml_ordered));
 
+our $VERSION = '0.0.1';
+
 sub new
 {
     my $class = shift;
@@ -115,7 +117,7 @@ sub _compare_loop
         {
             die "No 'param' specified.";
         }
-        return 
+        return
         {
             verdict => 0,
             param => $args->{param},
@@ -184,8 +186,8 @@ sub _get_diag_message
 
     if ($status_struct->{param} eq "nodeType")
     {
-        return 
-            "Different Node Type!\n" 
+        return
+            "Different Node Type!\n"
             . "Got: " . $self->_got->nodeType() . " at line " . $self->_got->lineNumber()
             . "\n"
             . "Expected: " . $self->_expected->nodeType() . " at line " . $self->_expected->lineNumber()
@@ -193,24 +195,24 @@ sub _get_diag_message
     }
     elsif ($status_struct->{param} eq "text")
     {
-        return 
+        return
             "Texts differ: Got at " . $self->_got->lineNumber(). " ; Expected at ". $self->_expected->lineNumber();
     }
     elsif ($status_struct->{param} eq "element_name")
     {
         return
-            "Got name: " . $self->_got->name(). " at " . $self->_got->lineNumber() . 
-            " ; " . 
+            "Got name: " . $self->_got->name(). " at " . $self->_got->lineNumber() .
+            " ; " .
             "Expected name: " . $self->_expected->name() . " at " .$self->_expected->lineNumber();
     }
     elsif ($status_struct->{param} eq "mismatch_ns")
     {
         return
-            "Got Namespace: " . _ns($self->_got). " at " . $self->_got->lineNumber() . 
-            " ; " . 
+            "Got Namespace: " . _ns($self->_got). " at " . $self->_got->lineNumber() .
+            " ; " .
             "Expected Namespace: " . _ns($self->_expected) . " at " .$self->_expected->lineNumber();
     }
-    
+
     else
     {
         die "Unknown param";
@@ -240,7 +242,7 @@ sub is_xml_ordered
 {
     local $Test::Builder::Level = $Test::Builder::Level+1;
 
-    my ($got_params, $expected_params, $message) = @_;
+    my ($got_params, $expected_params, $args, $message) = @_;
 
     my $comparator =
         Test::XML::Ordered->new(
@@ -256,3 +258,135 @@ sub is_xml_ordered
 
 1;
 
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+Test::XML::Ordered - compare two XML files for equivalency, in an ordered
+fashion.
+
+=head1 SYNOPSIS
+
+    use Test::More tests => 1;
+
+    use Test::XML::Ordered;
+
+    # TEST:$c++;
+    is_xml_ordered(
+        [ string => $got_xml_source, ], # Got.
+        [ string => $expected_xml_source, ], # Expected.
+        {}, # Options
+        "Equivalent", # Blurb
+    );
+
+=head1 DESCRIPTION
+
+This module is a test module which compares two XML files for equivalence
+in an ordered fashion. It was written after I (= Shlomi Fish) realised that
+L<XML::SemanticDiff>, which is the basis for L<Test::XML>, and which I
+maintain, compares two XML files for equivalence in a "semantic" fashion
+where elements can be present in several possible orders. (It does not always
+do the right thing with this respect, but even if it did, it is not normally
+what I want.).
+
+Other advantages of Test::XML::Ordered are:
+
+=over 4
+
+=item * Based on XML::LibXML instead of XML::Parser.
+
+=item * Handles namespaces properly.
+
+=back
+
+=head1 EXPORTS
+
+=head2 is_xml_ordered($got_params, $expected_params, $args, $message)
+
+Compares two XMLs for equivalance. $got_params and $expected_params are
+array references passed to L<XML::LibXML::Reader> . $args is an hash reference
+of options (currently not used but will be used in the future). $message
+is the blurb.
+
+=head1 METHODS
+
+=head2 new
+
+For internal use for now.
+
+=head2 compare
+
+For internal use for now.
+
+=head1 AUTHOR
+
+Shlomi Fish, L<http://www.shlomifish.org/> .
+
+=head1 BUGS
+
+Please report any bugs or feature requests to
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Test-XML-Ordered>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc Test::XML::Ordered
+
+You can also look for information at:
+
+=over 4
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Test-XML-Ordered>
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/Test-XML-Ordered>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/Test-XML-Ordered>
+
+=item * MetaCPAN
+
+L<http://metacpan.org/release/Test-XML-Ordered>
+
+=back
+
+=head1 ACKNOWLEDGEMENTS
+
+
+=head1 COPYRIGHT & LICENSE
+
+Copyright 2012 Shlomi Fish.
+
+This program is distributed under the MIT (X11) License:
+L<http://www.opensource.org/licenses/mit-license.php>
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+=cut
