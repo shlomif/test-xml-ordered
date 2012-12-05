@@ -4,6 +4,7 @@
     DTDs from w3.org.
         - https://rt.cpan.org/Ticket/Display.html?id=81715
         - Thanks to Slaven Rezic (SREZIC) for the report and the analysis.
+        - TODO : this may be a useful feature to add to the options hash-ref.
 
 0.0.1   4 December, 2012
     - First version.
