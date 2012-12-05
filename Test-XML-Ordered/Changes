@@ -1,0 +1,9 @@
+
+0.0.2   Wed  5 Dec 11:24:36 IST 2012
+    - Sped up the tests in t/xml_compare1.t by not loading external
+    DTDs from w3.org.
+        - https://rt.cpan.org/Ticket/Display.html?id=81715
+        - Thanks to Slaven Rezic (SREZIC) for the report and the analysis.
+
+0.0.1   4 December, 2012
+    - First version.
