@@ -13,7 +13,7 @@ use vars '@EXPORT_OK';
 
 @EXPORT_OK = (qw(is_xml_ordered));
 
-our $VERSION = '0.0.1';
+our $VERSION = '0.0.2';
 
 sub new
 {
