@@ -1,3 +1,7 @@
+0.0.3   Sun  6 Jan 11:09:30 IST 2013
+    - Add t/00basic.t to get some diagnosis of the libxml2 versions.
+    - Made the minimum required XML::LibXML version 2.0014 to avoid some
+    test issues.
 
 0.0.2   Wed  5 Dec 11:24:36 IST 2012
     - Sped up the tests in t/xml_compare1.t by not loading external
