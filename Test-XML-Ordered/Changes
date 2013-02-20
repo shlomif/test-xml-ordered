@@ -1,3 +1,4 @@
+0.0.5   Wed 20 Feb 12:14:14 IST 2013
     - Display the offending mismatched text in a text node mismatch.
     - Normalise all space-areas to a single - not just the first one.
     - Add a fix for handling empty elements - e.g: <img /> vs.
