@@ -172,13 +172,41 @@ sub _compare_loop
         }
         elsif ($type == XML_READER_TYPE_ELEMENT())
         {
-            if ($self->_got->localName() ne $self->_expected->localName())
+            my $check = sub {
+                if ($self->_got->localName() ne $self->_expected->localName())
+                {
+                    return $calc_prob->({param => "element_name"});
+                }
+                if (_ns($self->_got) ne _ns($self->_expected))
+                {
+                    return $calc_prob->({param => "mismatch_ns"});
+                }
+                return;
+            };
+
+            if (my $ret = $check->())
             {
-                return $calc_prob->({param => "element_name"});
+                return $ret;
             }
-            if (_ns($self->_got) ne _ns($self->_expected))
+
+            my $is_got_empty = $self->_got->isEmptyElement;
+            my $is_expected_empty = $self->_expected->isEmptyElement;
+
+            if ($is_got_empty && (!$is_expected_empty))
             {
-                return $calc_prob->({param => "mismatch_ns"});
+                $self->_read_expected();
+                if (my $ret = $check->())
+                {
+                    return $ret;
+                }
+            }
+            elsif ($is_expected_empty && (!$is_got_empty))
+            {
+                $self->_read_got();
+                if (my $ret = $check->())
+                {
+                    return $ret;
+                }
             }
         }
     }

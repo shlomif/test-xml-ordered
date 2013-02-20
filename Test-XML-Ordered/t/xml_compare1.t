@@ -8,7 +8,7 @@ use warnings;
 
 use Test::XML::Ordered qw(is_xml_ordered);
 
-use Test::More tests => 3;
+use Test::More tests => 4;
 
 my @common = (validation => 0, load_ext_dtd => 0, no_network => 1);
 
@@ -164,6 +164,94 @@ EOF
         [ string => $xml_source, @common, ],
         {},
         "<info /> and <db:info /> where xmlns:db == xmlns",
+    );
+
+}
+
+{
+    my $xml_source = <<'EOF';
+<?xml version="1.0" encoding="utf-8"?>
+<document xmlns="http://web-cpan.berlios.de/modules/XML-Grammar-Screenplay/screenplay-xml-0.2/"><head></head><body id="index"><scene id="top"><scene id="david_and_goliath"><description><para>David and <ulink url="http://en.wikipedia.org/wiki/Goliath">Goliath</ulink> are
+standing by each other.</para></description><saying character="David"><para>I will kill you.
+</para></saying><saying character="Goliath"><para>no way, you little idiot!
+</para></saying><saying character="David"><para>yes way!
+</para><para>In the name of <ulink url="http://real-allah.tld/">Allah, the
+<italics>merciful</italics>, real merciful</ulink>, I will show you the power of my sling.
+</para><para>I shall sling you and bing you till infinity.
+</para></saying><description><para>David takes his sling. <image url="sling.png" alt="a sling" title="Photo of David’s sling."></image> . </para></description><saying character="Goliath"><para>I'm still <ulink url="http://wait.tld/">waiting</ulink>.
+</para></saying><saying character="David"><para>so you are.
+</para></saying><description><para>David puts a stone in his sling and shoots Goliath. He hits.</para></description></scene></scene></body></document>
+EOF
+
+    my $final_source = <<'EOF';
+<?xml version='1.0' encoding='utf-8'?>
+<document xmlns="http://web-cpan.berlios.de/modules/XML-Grammar-Screenplay/screenplay-xml-0.2/">
+    <head>
+    </head>
+    <body id="index">
+<scene id="top">
+    <scene id="david_and_goliath">
+        <description>
+            <para>
+                David and
+                <ulink url="http://en.wikipedia.org/wiki/Goliath">Goliath</ulink>
+                are standing by each other.
+            </para>
+        </description>
+        <saying character="David">
+            <para>
+                I will kill you.
+            </para>
+        </saying>
+        <saying character="Goliath">
+            <para>
+                no way, you little idiot!
+            </para>
+        </saying>
+        <saying character="David">
+            <para>
+                yes way!
+            </para>
+            <para>
+                In the name of <ulink url="http://real-allah.tld/">Allah, the <italics>merciful</italics>, real merciful</ulink>, I will show you the power
+                of my sling.
+            </para>
+            <para>
+                I shall sling you and bing you till infinity.
+            </para>
+        </saying>
+        <description>
+            <para>
+                David takes his sling. <image url="sling.png" alt="a sling" title="Photo of David’s sling."/> .
+            </para>
+        </description>
+    <saying character="Goliath">
+        <para>
+            I'm still <ulink url="http://wait.tld/">waiting</ulink>.
+        </para>
+    </saying>
+    <saying character="David">
+        <para>
+            so you are.
+        </para>
+    </saying>
+    <description>
+        <para>
+            David puts a stone in his sling and shoots Goliath. He hits.
+        </para>
+    </description>
+</scene>
+</scene>
+</body>
+</document>
+EOF
+
+    # TEST
+    is_xml_ordered(
+        [ string => $final_source, @common, ],
+        [ string => $xml_source, @common, ],
+        {},
+        "<image /> with empty tag",
     );
 
 }
