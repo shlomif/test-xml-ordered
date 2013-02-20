@@ -163,7 +163,7 @@ EOF
         [ string => $final_source, @common, ],
         [ string => $xml_source, @common, ],
         {},
-        "XMLs are equivalent.",
+        "<info /> and <db:info /> where xmlns:db == xmlns",
     );
 
 }
