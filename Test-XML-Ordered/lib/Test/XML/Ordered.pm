@@ -162,7 +162,7 @@ sub _compare_loop
         }
         elsif ($type == XML_READER_TYPE_ELEMENT())
         {
-            if ($self->_got->name() ne $self->_expected->name())
+            if ($self->_got->localName() ne $self->_expected->localName())
             {
                 return $calc_prob->({param => "element_name"});
             }
@@ -201,9 +201,9 @@ sub _get_diag_message
     elsif ($status_struct->{param} eq "element_name")
     {
         return
-            "Got name: " . $self->_got->name(). " at " . $self->_got->lineNumber() .
+            "Got name: " . $self->_got->localName(). " at " . $self->_got->lineNumber() .
             " ; " .
-            "Expected name: " . $self->_expected->name() . " at " .$self->_expected->lineNumber();
+            "Expected name: " . $self->_expected->localName() . " at " .$self->_expected->lineNumber();
     }
     elsif ($status_struct->{param} eq "mismatch_ns")
     {

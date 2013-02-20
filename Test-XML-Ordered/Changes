@@ -1,3 +1,7 @@
+    - Fix a bug where we compared ->name() instead of ->localname().
+        - This caused <db:info /> not to match as <info /> if db: and
+        the default namespace are the same.
+
 0.0.3   Sun  6 Jan 11:09:30 IST 2013
     - Add t/00basic.t to get some diagnosis of the libxml2 versions.
     - Made the minimum required XML::LibXML version 2.0014 to avoid some
