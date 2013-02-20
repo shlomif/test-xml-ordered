@@ -121,6 +121,10 @@ sub _compare_loop
         {
             verdict => 0,
             param => $args->{param},
+            (exists($args->{got})
+                ? (got => $args->{got}, expected => $args->{expected})
+                : ()
+            ),
         }
     };
 
@@ -153,11 +157,17 @@ sub _compare_loop
             {
                 $t =~ s{\A\s+}{}ms;
                 $t =~ s{\s+\z}{}ms;
-                $t =~ s{\s+}{ }ms;
+                $t =~ s{\s+}{ }gms;
             }
             if ($got_text ne $expected_text)
             {
-                return $calc_prob->({param => "text"});
+                return $calc_prob->(
+                    {
+                        param => "text",
+                        got => $got_text,
+                        expected => $expected_text,
+                    }
+                );
             }
         }
         elsif ($type == XML_READER_TYPE_ELEMENT())
@@ -196,7 +206,7 @@ sub _get_diag_message
     elsif ($status_struct->{param} eq "text")
     {
         return
-            "Texts differ: Got at " . $self->_got->lineNumber(). " ; Expected at ". $self->_expected->lineNumber();
+            "Texts differ: Got <<$status_struct->{got}>> at " . $self->_got->lineNumber(). " ; Expected <<$status_struct->{expected}>> at ". $self->_expected->lineNumber();
     }
     elsif ($status_struct->{param} eq "element_name")
     {

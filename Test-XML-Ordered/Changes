@@ -1,3 +1,6 @@
+    - Display the offending mismatched text in a text node mismatch.
+    - Normalise all space-areas to a single - not just the first one.
+
 0.0.4   Wed 20 Feb 09:54:31 IST 2013
     - Fix a bug where we compared ->name() instead of ->localname().
         - This caused <db:info /> not to match as <info /> if db: and
