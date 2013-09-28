@@ -181,6 +181,116 @@ sub _compare_loop
                 {
                     return $calc_prob->({param => "mismatch_ns"});
                 }
+
+                my $list_attrs = sub {
+                    my ($elem) = @_;
+
+                    my @list;
+
+                    if ($elem->moveToFirstAttribute())
+                    {
+                        my $add = sub {
+
+                            my $ns = _ns($elem);
+                            if ($ns ne 'http://www.w3.org/2000/xmlns/')
+                            {
+                                push @list,
+                                { ns => $ns, localName => $elem->localName() };
+                            }
+                        };
+
+                        $add->();
+                        while ($elem->moveToNextAttribute() > 0)
+                        {
+                            $add->();
+                        }
+                        if ($elem->moveToElement() <= 0)
+                        {
+                            die "Cannot move back to element.";
+                        }
+                    }
+
+                    foreach my $attr (@list)
+                    {
+                        $attr->{value} = $elem->getAttributeNs(
+                            $attr->{localName},
+                            $attr->{ns},
+                        ) // '';
+                    }
+
+                    return
+                    [
+                        sort {
+                            ($a->{ns} cmp $b->{ns})
+                                or
+                            ($a->{localName} cmp $b->{localName})
+                        } @list
+                    ]
+                    ;
+                };
+
+                my @got_attrs = @{$list_attrs->($self->_got())};
+                my @exp_attrs = @{$list_attrs->($self->_expected())};
+
+                while (@got_attrs and @exp_attrs)
+                {
+                    my $got_a = shift(@got_attrs);
+                    my $exp_a = shift(@exp_attrs);
+
+                    if ($got_a->{ns} ne $exp_a->{ns})
+                    {
+                        return
+                            $calc_prob->(
+                                {
+                                    param => "attr_ns",
+                                    got => $got_a->{ns},
+                                    expected => $exp_a->{ns},
+                                }
+                            );
+                    }
+                    if ($got_a->{localName} ne $exp_a->{localName})
+                    {
+                        return
+                            $calc_prob->(
+                                {
+                                    param => "attr_localName",
+                                    got => $got_a->{localName},
+                                    expected => $exp_a->{localName},
+                                }
+                            );
+                    }
+                    if ($got_a->{value} ne $exp_a->{value})
+                    {
+                        return
+                            $calc_prob->(
+                                {
+                                    param => "attr_value",
+                                    got => $got_a->{value},
+                                    expected => $exp_a->{value},
+                                }
+                            );
+                    }
+                }
+                if (@got_attrs)
+                {
+                    return $calc_prob->(
+                        {
+                            param => "extra_attr_got",
+                            got => $self->_got,
+                            expected => $self->_expected,
+                        }
+                    );
+                }
+                if (@exp_attrs)
+                {
+                    return $calc_prob->(
+                        {
+                            param => "extra_attr_expected",
+                            got => $self->_got,
+                            expected => $self->_expected,
+                        }
+                    );
+                }
                 return;
             };
 
@@ -250,10 +360,23 @@ sub _get_diag_message
             " ; " .
             "Expected Namespace: " . _ns($self->_expected) . " at " .$self->_expected->lineNumber();
     }
-
+    elsif ($status_struct->{param} eq "extra_attr_got")
+    {
+        return
+            "Extra attribute for got at " . $self->_got->lineNumber() .
+            " ; " .
+            "Expected at " .$self->_expected->lineNumber();
+    }
+    elsif ($status_struct->{param} eq "attr_localName")
+    {
+        return
+            "Got Attribute localName: <<$status_struct->{got}>> at " . $self->_got->lineNumber() .
+            " ; " .
+            "Expected Attribute localName: <<$status_struct->{expected}>> at  " .$self->_expected->lineNumber();
+    }
     else
     {
-        die "Unknown param";
+        die "Unknown param: $status_struct->{param}";
     }
 }
 

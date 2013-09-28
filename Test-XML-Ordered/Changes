@@ -1,3 +1,8 @@
+    - Compare for presence and values of attributes of elements
+    that have them.
+        - https://rt.cpan.org/Public/Bug/Display.html?id=88994
+        - Thanks to NGLENN for the report and for some reproducing code.
+
 0.0.5   Wed 20 Feb 12:14:14 IST 2013
     - Display the offending mismatched text in a text node mismatch.
     - Normalise all space-areas to a single - not just the first one.
