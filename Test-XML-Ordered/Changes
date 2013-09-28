@@ -1,30 +1,32 @@
+0.0.6   2013-09-28
     - Compare for presence and values of attributes of elements
     that have them.
         - https://rt.cpan.org/Public/Bug/Display.html?id=88994
         - Thanks to NGLENN for the report and for some reproducing code.
+    - Convert "Changes" (this file) to CPAN::Changes with a test.
 
-0.0.5   Wed 20 Feb 12:14:14 IST 2013
+0.0.5   2013-02-20
     - Display the offending mismatched text in a text node mismatch.
     - Normalise all space-areas to a single - not just the first one.
     - Add a fix for handling empty elements - e.g: <img /> vs.
     <img></img>.
 
-0.0.4   Wed 20 Feb 09:54:31 IST 2013
+0.0.4   2013-02-20
     - Fix a bug where we compared ->name() instead of ->localname().
         - This caused <db:info /> not to match as <info /> if db: and
         the default namespace are the same.
 
-0.0.3   Sun  6 Jan 11:09:30 IST 2013
+0.0.3   2013-01-06
     - Add t/00basic.t to get some diagnosis of the libxml2 versions.
     - Made the minimum required XML::LibXML version 2.0014 to avoid some
     test issues.
 
-0.0.2   Wed  5 Dec 11:24:36 IST 2012
+0.0.2   2012-12-05
     - Sped up the tests in t/xml_compare1.t by not loading external
     DTDs from w3.org.
         - https://rt.cpan.org/Ticket/Display.html?id=81715
         - Thanks to Slaven Rezic (SREZIC) for the report and the analysis.
         - TODO : this may be a useful feature to add to the options hash-ref.
 
-0.0.1   4 December, 2012
+0.0.1   2012-12-04
     - First version.
