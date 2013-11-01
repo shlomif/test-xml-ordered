@@ -1,3 +1,8 @@
+0.0.7   2013-11-01
+    - Accurately compare values of attributes without namespaces.
+        - https://rt.cpan.org/Public/Bug/Display.html?id=89262
+        - Thanks to NGLENN for the report and for some reproducing code.
+
 0.0.6   2013-09-28
     - Compare for presence and values of attributes of elements
     that have them.
