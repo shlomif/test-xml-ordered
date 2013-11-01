@@ -212,10 +212,13 @@ sub _compare_loop
 
                     foreach my $attr (@list)
                     {
-                        $attr->{value} = $elem->getAttributeNs(
-                            $attr->{localName},
-                            $attr->{ns},
-                        ) // '';
+                        $attr->{value} = ((length($attr->{ns})
+                            ?  $elem->getAttributeNs(
+                                $attr->{localName},
+                                $attr->{ns},
+                            )
+                            : $elem->getAttribute($attr->{localName})
+                        ) // '');
                     }
 
                     return
@@ -373,6 +376,13 @@ sub _get_diag_message
             "Got Attribute localName: <<$status_struct->{got}>> at " . $self->_got->lineNumber() .
             " ; " .
             "Expected Attribute localName: <<$status_struct->{expected}>> at  " .$self->_expected->lineNumber();
+    }
+    elsif ($status_struct->{param} eq "attr_value")
+    {
+        return
+            "Got Attribute value: <<$status_struct->{got}>> at " . $self->_got->lineNumber() .
+            " ; " .
+            "Expected Attribute value: <<$status_struct->{expected}>> at  " .$self->_expected->lineNumber();
     }
     else
     {
