@@ -3,6 +3,8 @@ package Test::XML::Ordered;
 use strict;
 use warnings;
 
+use 5.010;
+
 use XML::LibXML::Reader;
 
 use Test::More;
@@ -13,7 +15,7 @@ use vars '@EXPORT_OK';
 
 @EXPORT_OK = (qw(is_xml_ordered));
 
-our $VERSION = '0.0.7';
+our $VERSION = '0.0.8';
 
 sub new
 {

@@ -1,3 +1,7 @@
+0.0.8   2013-11-02
+    - Made the minimal version of perl to be 5.10.x.
+        - Otherwise, there were test failures.
+
 0.0.7   2013-11-01
     - Accurately compare values of attributes without namespaces.
         - https://rt.cpan.org/Public/Bug/Display.html?id=89262
