@@ -1,3 +1,7 @@
+0.0.9   2015-04-08
+    - Remove t/00basic.t which tested for versions of libxml2 and was
+    erroneously failing.
+
 0.0.8   2013-11-02
     - Made the minimal version of perl to be 5.10.x.
         - Otherwise, there were test failures.
