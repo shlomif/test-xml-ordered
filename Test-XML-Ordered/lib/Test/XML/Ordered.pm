@@ -15,8 +15,6 @@ use vars '@EXPORT_OK';
 
 @EXPORT_OK = (qw(is_xml_ordered));
 
-our $VERSION = 'v0.0.9';
-
 sub new
 {
     my $class = shift;
