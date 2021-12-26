@@ -455,7 +455,7 @@ fashion.
 
     use Test::More tests => 1;
 
-    use Test::XML::Ordered;
+    use Test::XML::Ordered qw(is_xml_ordered);
 
     # TEST:$c++;
     is_xml_ordered(
@@ -486,6 +486,8 @@ Other advantages of Test::XML::Ordered are:
 =back
 
 =head1 EXPORTS
+
+The following function is exported upon request:
 
 =head2 is_xml_ordered($got_params, $expected_params, $args, $message)
 
