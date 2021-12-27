@@ -228,8 +228,7 @@ NODE_LOOP:
                     return [
                         sort {
                                    ( $a->{ns} cmp $b->{ns} )
-                                or
-                                ( $a->{localName} cmp $b->{localName} )
+                                or ( $a->{localName} cmp $b->{localName} )
                         } @list
                     ];
                 };
