@@ -13,8 +13,7 @@ test_fail(+1);
 is_xml_ordered(
     [ string => '<xml stuff="foo"/>' ],
     [ string => '<xml/>' ],
-    {},
-    'extra attribute for got'
+    {}, 'extra attribute for got'
 );
 test_test("is_xml_ordered fails on extra attribute in 'have' XML.");
 
@@ -25,8 +24,7 @@ test_fail(+1);
 is_xml_ordered(
     [ string => '<xml/>' ],
     [ string => '<xml stuff="bar"/>' ],
-    {},
-    'missing attribute for got'
+    {}, 'missing attribute for got'
 );
 test_test("is_xml_ordered fails on missing attribute in 'have' XML.");
 
