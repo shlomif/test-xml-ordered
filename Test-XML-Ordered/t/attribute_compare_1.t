@@ -19,16 +19,16 @@ is_xml_ordered(
 test_test("is_xml_ordered fails on extra attribute in 'have' XML.");
 
 # TEST
-test_out("not ok 1 - extra attribute for expected");
-test_diag("Extra attribute for expected at 1 ; Gotten at 1");
+test_out("not ok 1 - missing attribute for got");
+test_diag("Missing attribute for got at 1 ; Expected at 1");
 test_fail(+1);
 is_xml_ordered(
     [ string => '<xml/>' ],
     [ string => '<xml stuff="bar"/>' ],
     {},
-    'extra attribute for expected'
+    'missing attribute for got'
 );
-test_test("is_xml_ordered fails on extra attribute in 'expected' XML.");
+test_test("is_xml_ordered fails on missing attribute in 'have' XML.");
 
 # TEST
 test_out("not ok 1 - Attribute value mismatch");
