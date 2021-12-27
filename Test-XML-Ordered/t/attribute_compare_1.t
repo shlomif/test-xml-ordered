@@ -3,19 +3,32 @@
 use strict;
 use warnings;
 
-use Test::Builder::Tester tests => 2;
+use Test::Builder::Tester tests => 3;
 use Test::XML::Ordered qw(is_xml_ordered);
 
 # TEST
-test_out("not ok 1 - XML structure");
+test_out("not ok 1 - extra attribute for got");
 test_diag("Extra attribute for got at 1 ; Expected at 1");
 test_fail(+1);
 is_xml_ordered(
     [ string => '<xml stuff="foo"/>' ],
     [ string => '<xml/>' ],
-    {}, 'XML structure'
+    {},
+    'extra attribute for got'
 );
 test_test("is_xml_ordered fails on extra attribute in 'have' XML.");
+
+# TEST
+test_out("not ok 1 - extra attribute for expected");
+test_diag("Extra attribute for expected at 1 ; Gotten at 1");
+test_fail(+1);
+is_xml_ordered(
+    [ string => '<xml/>' ],
+    [ string => '<xml stuff="bar"/>' ],
+    {},
+    'extra attribute for expected'
+);
+test_test("is_xml_ordered fails on extra attribute in 'expected' XML.");
 
 # TEST
 test_out("not ok 1 - Attribute value mismatch");

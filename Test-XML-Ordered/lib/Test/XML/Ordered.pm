@@ -381,6 +381,14 @@ sub _get_diag_message
             . "Expected at "
             . $self->_expected->lineNumber();
     }
+    elsif ( $status_struct->{param} eq "extra_attr_expected" )
+    {
+        return
+              "Extra attribute for expected at "
+            . $self->_expected->lineNumber() . " ; "
+            . "Gotten at "
+            . $self->_got->lineNumber();
+    }
     elsif ( $status_struct->{param} eq "attr_localName" )
     {
         return
